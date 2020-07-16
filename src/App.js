@@ -1,69 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-//구조분해할당 사용 !! 
-function Food({ name, picture, rating }) {
-  return(
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    console.log('hello');
+  }
+
+  state = {
+
+    count: 0, 
+
+  };
+  //state를 사용하려면 클래스형 컴포넌트 안에서 소문자롤 이용해서 state라고 적자...
+  //stae는 동적 데이터 활용시 꼭 필요 !!!!!
+
+  add = () => {
+    //this.state.count = 1; state 직접 변경하지 마라... 왜? render 다시 못불러오거든! 그럼 해결책은? -> setState 함수 ! 
+    //this.setState({ count: this.state.count + 1 }); 좋은 방법은 아님,, 왜? 성능 문제가 있을 수 있다고 함 ,,!
+    this.setState(currnet => ({count: currnet.count + 1, }));
+  };
+
+  minus = () => {
+    //this.state.count = -1; state 직접 변경하지 마라...
+    //this.setState({ count: this.state. count - 1 });
+    this.setState(currnet => ({count: currnet.count - 1, }));
+  }
+
+  //리액트 반응속도 짱빠르다. 새로고침도 안일어남 bb 
+
+  componentDidMount() {
+    console.log('component rendered');
+  }
+
+  componentDidUpdate() { //화면이 업데이트 되는 경우에 실행됨
+    console.log('I just updated');
+  }
+
+  componentWillUnmount() { //컴포넌트가 화면에서 떠날 때 실행 됨
+    console.log('Goodbye, cruel world');
+  }
+
+  render() {
+    console.log("I'm rendering");
+    return (
     <div>
-      <h2>I like {name}</h2>;
-      <h4>{rating}/5.0</h4>
-      <img src={picture} alt={name} />
+    <h1>The number is : {this.state.count}</h1>
+    <button onClick={this.add}>Add</button>
+    <button onClick={this.minus}>Minus</button>
     </div>
-    //alt는 시각 장애인을 위한 것임.
-  );
-
+    );
+  }
+//클래스형 컴포넌트는 render()함수가 JSX를 반환한다. -> render()함수는 우리가 직접 실행하지 않아도 됨.
 }
-//리액트에서 객체는 중괄호 양쪽을 공백으로 채욱, JSX의 자바스크립트는 중괄호 양쪽을 공백으로 채우지 않는 방법으로 구분한다.
-
-const foodILike = [
-  {
-    id: 1,
-    name: 'Kimchi',
-    image: 'https://cdn.crowdpic.net/detail-thumb/thumb_d_AAA4C5E8C1E29791413BFBFF5419BA73.jpg',
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: 'Samgyeopsal',
-    image: 'https://image.chosun.com/sitedata/image/201902/24/2019022401106_0.jpg',
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    name: 'Bibimbap',
-    image: 'https://recipe1.ezmember.co.kr/cache/recipe/2018/10/03/355b5cd5c3beb1a775c82ee425dcd1931.jpg',
-    rating:  3,
-  },
-  {
-    id: 4,
-    name: 'Kimbap',
-    image: 'https://homecuisine.co.kr/files/attach/images/140/001/083/558d170258752df2dd76bef00861497f.JPG',
-    rating: 2,
-  },
-];
-
-
-
-
-function App() {
-
-  return(
-    <div>
-      {foodILike.map(dish => ( <Food key={dish.id} name={dish.name} picture= {dish.image} rating={dish.rating} />))}
-    </div>
-    //key props는 리액트 내부에서 사용되는 특수한 props라서 Food 컴포넌트에 직접 전달되지 않는다. 
-    
-  );
-      // Food컴포넌트에 사용한 props의 이름은 fav이고, fav에 "Kimchi"라는 값을 담아 Food 컴포넌트에 보냈다. 
-      // props에 있는 데이터는 문자열인 경우를 제외하면 모두 중괄호 {}로
-  
-  
-}
-
-Food.propTypes = {
-  name: PropTypes.string.isRequired,
-  Picture: PropTypes.string.isRequired,
-  rating: PropTypes.number,
-};
+//클래스형 컴포넌트가 되려면 'App클래스가 리액트가 제공하는 Component 클래스를 반드시 상속 :: 클래스에 다른 클래스의 기능을 추가할 수 잇게 해준다 ::받아야 한다 !!! '
 
 export default App;
